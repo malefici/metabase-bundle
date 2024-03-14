@@ -58,7 +58,25 @@ class MetabaseBundleTest extends TestCase
         );
     }
 
-    private static function createTokenGenerator()
+    public function testWrongDateModifier(): void
+    {
+        $tokenGenerator = clone self::createTokenGenerator();
+        $tokenGenerator->setTokenExpirationModifier('+TWENTY days');
+
+        $this->expectException(\DateMalformedStringException::class);
+        $tokenGenerator->generate(EmbedType::dashboard, 1);
+    }
+
+    public function testWrongTheme(): void
+    {
+        $tokenGenerator = self::createTokenGenerator();
+        $linkGenerator = new UrlGenerator($tokenGenerator, 'https://example.org', ['border' => true, 'title' => true, 'theme' => 'yellow']);
+
+        $this->expectException(\ValueError::class);
+        $linkGenerator->generate(EmbedType::dashboard, 1, ['id' => 1]);
+    }
+
+    private static function createTokenGenerator(): TokenGenerator
     {
         return new TokenGenerator(
             '76ff41a84ed1c6b294528b8339ab357173c020d767119c571d931eae27bd07d5',

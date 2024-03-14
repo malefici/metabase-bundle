@@ -53,7 +53,7 @@ class UrlGenerator
             'titled' => (bool) $this->appearance['title'],
         ];
 
-        $theme = IframeTheme::tryFrom($this->appearance['theme']);
+        $theme = IframeTheme::from($this->appearance['theme']);
         if ($theme->value !== IframeTheme::light->value) { // don't add param if theme is light
             $appearanceParams['theme'] = $theme->name;
         }
