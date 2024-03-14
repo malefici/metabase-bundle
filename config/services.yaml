@@ -1,7 +1,8 @@
 services:
     metabase.link_generator:
-        class: Malefici\Symfony\MetabaseBundle\Metabase\UrlGenerator
-        public: true
+        class: Malefici\Symfony\MetabaseBundle\Metabase\Embedding\UrlGenerator
+#        public: true
+#        autowire: true
         arguments:
             - "%metabase.parameter.site_url%"
             - "%metabase.parameter.secret_key%"
@@ -10,6 +11,10 @@ services:
             - "%metabase.parameter.title%"
             - "%metabase.parameter.theme%"
 
+    Malefici\Symfony\MetabaseBundle\Metabase\Embedding\UrlGenerator:
+        alias: 'metabase.link_generator'
+        public: true
+
     metabase.twig.extension:
         class: Malefici\Symfony\MetabaseBundle\Twig\MetabaseExtension
         arguments:
@@ -17,7 +22,7 @@ services:
         tags: ['twig.extension']
 
     metabase.command.generate_token:
-        class: Malefici\Symfony\MetabaseBundle\Command\GenerateUrlCommand
+        class: Malefici\Symfony\MetabaseBundle\Command\EmbeddingGenerateUrlCommand
         arguments:
             - "@metabase.link_generator"
         tags: ['console.command']
