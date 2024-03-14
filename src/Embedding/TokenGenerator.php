@@ -19,7 +19,7 @@ class TokenGenerator
 {
     public function __construct(
         private readonly string $metabaseSecretKey,
-        private string $tokenExpirationModifier = 'now'
+        private string $tokenExpirationModifier = '+1 hour'
     ) {
     }
 
