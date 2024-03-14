@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * This file is part of the malefici/metabase-bundle package.
+ *
+ * (c) Malefici <nikita@malefici.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Malefici\Symfony\MetabaseBundle\Tests;
 
 use Malefici\Symfony\MetabaseBundle\DependencyInjection\MetabaseExtension;
-use Malefici\Symfony\MetabaseBundle\Embedding\EmbedTypeEnum;
+use Malefici\Symfony\MetabaseBundle\Embedding\EmbedType;
 use Malefici\Symfony\MetabaseBundle\Embedding\TokenGenerator;
 use Malefici\Symfony\MetabaseBundle\Embedding\UrlGenerator;
 use Malefici\Symfony\MetabaseBundle\MetabaseBundle;
@@ -23,7 +32,7 @@ class MetabaseBundleTest extends TestCase
 
         $this->assertEquals(
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJxdWVzdGlvbiI6MX0sInBhcmFtcyI6e30sImV4cCI6MTcwNDA2NzIwMX0.fLNHkCMQMBc7MDhYvlIGgglwPVu4rmVasoFqa-2QFDM',
-            $tokenGenerator->generate(EmbedTypeEnum::question, 1, [], new \DateTimeImmutable('2024-01-01 00:00:01'))
+            $tokenGenerator->generate(EmbedType::question, 1, [], new \DateTimeImmutable('2024-01-01 00:00:01'))
         );
     }
 
@@ -34,7 +43,7 @@ class MetabaseBundleTest extends TestCase
 
         $this->assertEquals(
             'https://example.org/embed/question/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJxdWVzdGlvbiI6MX0sInBhcmFtcyI6e30sImV4cCI6MTcwNDA2NzIwMX0.fLNHkCMQMBc7MDhYvlIGgglwPVu4rmVasoFqa-2QFDM#bordered=0&titled=0',
-            $linkGenerator->generate(EmbedTypeEnum::question, 1, [], new \DateTimeImmutable('2024-01-01 00:00:01'))
+            $linkGenerator->generate(EmbedType::question, 1, [], new \DateTimeImmutable('2024-01-01 00:00:01'))
         );
     }
 
@@ -45,7 +54,7 @@ class MetabaseBundleTest extends TestCase
 
         $this->assertEquals(
             'https://example.org/embed/dashboard/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjF9LCJwYXJhbXMiOnsiaWQiOjF9LCJleHAiOjE3MDQwNjcyMDF9.9v2JRFFSIVgAfbHBZMhBynVQ58ZtbFPOZuwdc5PSYJs#bordered=1&titled=1&theme=night',
-            $linkGenerator->generate(EmbedTypeEnum::dashboard, 1, ['id' => 1], new \DateTimeImmutable('2024-01-01 00:00:01'))
+            $linkGenerator->generate(EmbedType::dashboard, 1, ['id' => 1], new \DateTimeImmutable('2024-01-01 00:00:01'))
         );
     }
 

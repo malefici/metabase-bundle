@@ -1,8 +1,17 @@
 <?php
 
+/*
+ * This file is part of the malefici/metabase-bundle package.
+ *
+ * (c) Malefici <nikita@malefici.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Malefici\Symfony\MetabaseBundle\Command;
 
-use Malefici\Symfony\MetabaseBundle\Embedding\EmbedTypeEnum;
+use Malefici\Symfony\MetabaseBundle\Embedding\EmbedType;
 use Malefici\Symfony\MetabaseBundle\Embedding\TokenGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -38,7 +47,7 @@ class EmbeddingGenerateTokenCommand extends Command
         $_ = array_map(fn (string $param) => explode('=', $param), $params);
         $params = array_combine(array_column($_, 0), array_column($_, 1));
 
-        if (null === ($enumType = EmbedTypeEnum::tryFrom($type))) {
+        if (null === ($enumType = EmbedType::tryFrom($type))) {
             $output->writeln(sprintf('Unknown type "%s"', $type));
 
             return Command::INVALID;

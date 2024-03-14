@@ -1,8 +1,17 @@
 <?php
 
+/*
+ * This file is part of the malefici/metabase-bundle package.
+ *
+ * (c) Malefici <nikita@malefici.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Malefici\Symfony\MetabaseBundle\Twig;
 
-use Malefici\Symfony\MetabaseBundle\Embedding\EmbedTypeEnum;
+use Malefici\Symfony\MetabaseBundle\Embedding\EmbedType;
 use Malefici\Symfony\MetabaseBundle\Embedding\UrlGenerator;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -23,7 +32,7 @@ class MetabaseExtension extends AbstractExtension
 
     private function renderIframe(Environment $env, string $type, int $id, array $embeddingParams = [], array $templateParams = []): string
     {
-        if (null === ($enumType = EmbedTypeEnum::tryFrom($type))) {
+        if (null === ($enumType = EmbedType::tryFrom($type))) {
             throw new \InvalidArgumentException(sprintf('Unknown embedding type "%s"', $type));
         }
 
