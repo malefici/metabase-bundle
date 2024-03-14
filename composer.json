@@ -1,7 +1,8 @@
 {
     "name": "malefici/metabase-bundle",
-    "description": "The small bundle to make embedding easy.",
+    "description": "The small bundle makes embedding dashboards and questions slightly easier.",
     "type": "symfony-bundle",
+    "keywords": ["symfony", "metabase", "integration", "api", "embedding"],
     "license": "MIT",
     "authors": [
         {
