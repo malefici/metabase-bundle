@@ -3,21 +3,21 @@
 namespace Malefici\Symfony\MetabaseBundle\Command;
 
 use Malefici\Symfony\MetabaseBundle\Embedding\EmbedTypeEnum;
-use Malefici\Symfony\MetabaseBundle\Embedding\UrlGenerator;
+use Malefici\Symfony\MetabaseBundle\Embedding\TokenGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class EmbeddingGenerateUrlCommand extends Command
+class EmbeddingGenerateTokenCommand extends Command
 {
-    private UrlGenerator $linkGenerator;
+    private TokenGenerator $tokenGenerator;
 
-    public function __construct(UrlGenerator $tokenGenerator)
+    public function __construct(TokenGenerator $tokenGenerator)
     {
-        $this->linkGenerator = $tokenGenerator;
-        parent::__construct('metabase:embedding:generate-url');
+        $this->tokenGenerator = $tokenGenerator;
+        parent::__construct('metabase:embedding:generate-token');
     }
 
     protected function configure(): void
@@ -44,9 +44,9 @@ class EmbeddingGenerateUrlCommand extends Command
             return Command::INVALID;
         }
 
-        $url = $this->linkGenerator->generate($enumType, $id, $params);
+        $token = $this->tokenGenerator->generate($enumType, $id, $params);
 
-        $output->writeln($url);
+        $output->writeln($token);
 
         return Command::SUCCESS;
     }

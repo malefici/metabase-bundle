@@ -1,6 +1,6 @@
 <?php
 
-namespace Malefici\Symfony\MetabaseBundle\Metabase\Embedding;
+namespace Malefici\Symfony\MetabaseBundle\Embedding;
 
 enum EmbedTypeEnum: string
 {

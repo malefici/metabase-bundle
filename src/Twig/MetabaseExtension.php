@@ -2,8 +2,8 @@
 
 namespace Malefici\Symfony\MetabaseBundle\Twig;
 
-use Malefici\Symfony\MetabaseBundle\Metabase\Embedding\EmbedTypeEnum;
-use Malefici\Symfony\MetabaseBundle\Metabase\Embedding\UrlGenerator;
+use Malefici\Symfony\MetabaseBundle\Embedding\EmbedTypeEnum;
+use Malefici\Symfony\MetabaseBundle\Embedding\UrlGenerator;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

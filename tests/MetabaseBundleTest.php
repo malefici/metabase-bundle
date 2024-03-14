@@ -3,8 +3,9 @@
 namespace Malefici\Symfony\MetabaseBundle\Tests;
 
 use Malefici\Symfony\MetabaseBundle\DependencyInjection\MetabaseExtension;
-use Malefici\Symfony\MetabaseBundle\Metabase\Embedding\EmbedTypeEnum;
-use Malefici\Symfony\MetabaseBundle\Metabase\Embedding\UrlGenerator;
+use Malefici\Symfony\MetabaseBundle\Embedding\EmbedTypeEnum;
+use Malefici\Symfony\MetabaseBundle\Embedding\TokenGenerator;
+use Malefici\Symfony\MetabaseBundle\Embedding\UrlGenerator;
 use Malefici\Symfony\MetabaseBundle\MetabaseBundle;
 use PHPUnit\Framework\TestCase;
 
@@ -16,23 +17,42 @@ class MetabaseBundleTest extends TestCase
         $this->assertInstanceOf(MetabaseExtension::class, $bundle->getContainerExtension());
     }
 
-    public function testLinkGeneratorForQuestion(): void
+    public function testTokenGenerator(): void
     {
-        $linkGenerator = new UrlGenerator('http://example.org', 'secret', '+1 hour', true, true, 'light');
+        $tokenGenerator = self::createTokenGenerator();
 
         $this->assertEquals(
-            'http://example.org/embed/question/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJxdWVzdGlvbiI6MX0sInBhcmFtcyI6e30sImV4cCI6eyJkYXRlIjoiMjAyNC0wMS0wMSAwMDowMDowMS4wMDAwMDAiLCJ0aW1lem9uZV90eXBlIjozLCJ0aW1lem9uZSI6IlVUQyJ9fQ.TV7zfbC7U0TZ_hdV98YkWvTVZ7wd93kyLT1swxAjKO4#bordered=1&titled=1',
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJxdWVzdGlvbiI6MX0sInBhcmFtcyI6e30sImV4cCI6MTcwNDA2NzIwMX0.fLNHkCMQMBc7MDhYvlIGgglwPVu4rmVasoFqa-2QFDM',
+            $tokenGenerator->generate(EmbedTypeEnum::question, 1, [], new \DateTimeImmutable('2024-01-01 00:00:01'))
+        );
+    }
+
+    public function testUrlGeneratorForQuestion(): void
+    {
+        $tokenGenerator = self::createTokenGenerator();
+        $linkGenerator = new UrlGenerator($tokenGenerator, 'https://example.org', ['border' => false, 'title' => false, 'theme' => 'light']);
+
+        $this->assertEquals(
+            'https://example.org/embed/question/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJxdWVzdGlvbiI6MX0sInBhcmFtcyI6e30sImV4cCI6MTcwNDA2NzIwMX0.fLNHkCMQMBc7MDhYvlIGgglwPVu4rmVasoFqa-2QFDM#bordered=0&titled=0',
             $linkGenerator->generate(EmbedTypeEnum::question, 1, [], new \DateTimeImmutable('2024-01-01 00:00:01'))
         );
     }
 
-    public function testLinkGeneratorForDashboard(): void
+    public function testUrlGeneratorForDashboard(): void
     {
-        $linkGenerator = new UrlGenerator('http://example.org', 'secret', '+1 hour', true, true, 'light');
+        $tokenGenerator = self::createTokenGenerator();
+        $linkGenerator = new UrlGenerator($tokenGenerator, 'https://example.org', ['border' => true, 'title' => true, 'theme' => 'dark']);
 
         $this->assertEquals(
-            'http://example.org/embed/dashboard/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjF9LCJwYXJhbXMiOnsiaWQiOjF9LCJleHAiOnsiZGF0ZSI6IjIwMjQtMDEtMDEgMDA6MDA6MDEuMDAwMDAwIiwidGltZXpvbmVfdHlwZSI6MywidGltZXpvbmUiOiJVVEMifX0.Kr-y21F0wztFeEha_1LIUasDApBlh3Wze_CE_0cNe_U#bordered=1&titled=1',
+            'https://example.org/embed/dashboard/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjF9LCJwYXJhbXMiOnsiaWQiOjF9LCJleHAiOjE3MDQwNjcyMDF9.9v2JRFFSIVgAfbHBZMhBynVQ58ZtbFPOZuwdc5PSYJs#bordered=1&titled=1&theme=night',
             $linkGenerator->generate(EmbedTypeEnum::dashboard, 1, ['id' => 1], new \DateTimeImmutable('2024-01-01 00:00:01'))
+        );
+    }
+
+    private static function createTokenGenerator()
+    {
+        return new TokenGenerator(
+            '76ff41a84ed1c6b294528b8339ab357173c020d767119c571d931eae27bd07d5',
         );
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Malefici\Symfony\MetabaseBundle\Metabase\Embedding;
+namespace Malefici\Symfony\MetabaseBundle\Embedding;
 
 enum IframeThemeEnum: string
 {
     case light = 'light';
 
-    case dark = 'dark';
+    case night = 'dark';
 
     case transparent = 'transparent';
 }

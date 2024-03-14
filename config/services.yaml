@@ -1,28 +1,40 @@
 services:
-    metabase.link_generator:
-        class: Malefici\Symfony\MetabaseBundle\Metabase\Embedding\UrlGenerator
-#        public: true
-#        autowire: true
+
+    metabase.token_generator:
+        class: Malefici\Symfony\MetabaseBundle\Embedding\TokenGenerator
         arguments:
-            - "%metabase.parameter.site_url%"
             - "%metabase.parameter.secret_key%"
             - "%metabase.parameter.token_expiration%"
-            - "%metabase.parameter.border%"
-            - "%metabase.parameter.title%"
-            - "%metabase.parameter.theme%"
 
-    Malefici\Symfony\MetabaseBundle\Metabase\Embedding\UrlGenerator:
-        alias: 'metabase.link_generator'
+    Malefici\Symfony\MetabaseBundle\Embedding\TokenGenerator:
+        alias: 'metabase.token_generator'
+        public: true
+
+    metabase.url_generator:
+        class: Malefici\Symfony\MetabaseBundle\Embedding\UrlGenerator
+        arguments:
+            - "@metabase.token_generator"
+            - "%metabase.parameter.site_url%"
+            - "%metabase.parameter.appearance%"
+
+    Malefici\Symfony\MetabaseBundle\Embedding\UrlGenerator:
+        alias: 'metabase.url_generator'
         public: true
 
     metabase.twig.extension:
         class: Malefici\Symfony\MetabaseBundle\Twig\MetabaseExtension
         arguments:
-            - "@metabase.link_generator"
+            - "@metabase.url_generator"
         tags: ['twig.extension']
 
     metabase.command.generate_token:
+        class: Malefici\Symfony\MetabaseBundle\Command\EmbeddingGenerateTokenCommand
+        arguments:
+            - "@metabase.token_generator"
+        tags: ['console.command']
+
+    metabase.command.generate_url:
         class: Malefici\Symfony\MetabaseBundle\Command\EmbeddingGenerateUrlCommand
         arguments:
-            - "@metabase.link_generator"
+            - "@metabase.url_generator"
         tags: ['console.command']

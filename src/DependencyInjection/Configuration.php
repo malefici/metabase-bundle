@@ -16,9 +16,12 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('site_url')->isRequired()->end()
                 ->scalarNode('secret_key')->isRequired()->end()
                 ->scalarNode('token_expiration')->defaultValue('+1 hour')->end()
-                ->booleanNode('border')->defaultTrue()->end()
-                ->booleanNode('title')->defaultTrue()->end()
-                ->enumNode('theme')->values(['light', 'dark', 'transparent'])->end()
+                ->arrayNode('appearance')
+                ->children()
+                    ->booleanNode('border')->defaultTrue()->end()
+                    ->booleanNode('title')->defaultTrue()->end()
+                    ->enumNode('theme')->values(['light', 'dark', 'transparent'])->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

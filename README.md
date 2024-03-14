@@ -1,10 +1,22 @@
-## Installation
+Symfony Metabase Bundle
+=======================
+
+The small bundle makes embedding dashboards and questions slightly easier.
+
+Supported Metabase versions:
+
+| Metabase version | Bundle version |
+|:----------------:|:--------------:|
+|       0.48       |     0.0.3      |
+
+
+## Installation and configuration
 
 ```
 composer require malefici/metabase-bundle
 ```
 
-## Configuration
+There is no Flex Recipe for now. It will be added later.
 
 Create configuration file `config/packages/metabase.yaml`
 
@@ -19,41 +31,63 @@ metabase:
     # All parameters below are not required; their default values are presented in this configuration.
 
     # Date and time modifier, see https://www.php.net/manual/en/datetime.formats.php
-    token_expiration: +1 hour
+    token_expiration: '+1 hour'
 
     # Customizing the appearance of static embeds. Settings from paid plans are not included.
-    border: true
-    title: true
-    theme: light  # Available values: light, dark, transparent.
+    appearance:
+        border: true
+        title: true
+        theme: light # Available values: light, dark, transparent.
 ```
+
+Define environment variables in the `.env` file:
+
+```
+MB_SITE_URL=https://metabase.example.com
+MB_EMBEDDING_SECRET_KEY=76ff41a84ed1c6b294528b8339ab357173c020d767119c571d931eae27bd07d5
+```
+
 
 ## Twig functions
 
-### metabase_embedded
+### `metabase_embedded`
 
 Example:
 
 ```
-{{ metabase_embedded('question', 1, { productId: 10 }) }}
+{{ metabase_embedded('question', 1, { question_parameter: 10 }) }}
 ```
+
 
 ## Template overriding
 
-It is very easy to do. Please read [Symfony documentation](https://symfony.com/doc/current/bundles/override.html) about templates overriding.
+Please read [Symfony documentation](https://symfony.com/doc/current/bundles/override.html) about templates overriding.
 
-You may use special param to pass data to your custom template. 
+You may pass additional data to your custom template:
 
 ```
-{{ metabase_embedded('question', 1, { productId: 10 }, { style: 'border: solid 1px red;' }) }}
+{{ metabase_embedded('dashboard', 1, { dashboard_parameter: 10 }, { my_template_variable: 'value' }) }}
 ```
+
 
 ## Commands
 
-Currently, there is only one command.
+The list of CLI commands.
 
-### metabase:generate-url
+
+### `metabase:embedding:generate-token`
+
+Token generation for embedding.
+
+
+### `metabase:embedding:generate-url`
+
+URL generation for embedding.
+
 
 ## TODO
 
+ - Flex Recipe
  - Downgrade requirements to Symfony 6.4
  - Unit-tests
+ - API requests

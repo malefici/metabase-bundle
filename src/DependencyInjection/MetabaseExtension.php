@@ -17,9 +17,7 @@ class MetabaseExtension extends Extension
         $container->setParameter('metabase.parameter.site_url', $config['site_url']);
         $container->setParameter('metabase.parameter.secret_key', $config['secret_key']);
         $container->setParameter('metabase.parameter.token_expiration', $config['token_expiration']);
-        $container->setParameter('metabase.parameter.border', $config['border']);
-        $container->setParameter('metabase.parameter.title', $config['title']);
-        $container->setParameter('metabase.parameter.theme', $config['theme']);
+        $container->setParameter('metabase.parameter.appearance', $config['appearance']);
 
         $fileLocator = new FileLocator(__DIR__.'/../../config');
         $loader = new YamlFileLoader($container, $fileLocator);
