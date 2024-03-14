@@ -1,0 +1,23 @@
+services:
+    metabase.link_generator:
+        class: Malefici\Symfony\MetabaseBundle\Metabase\UrlGenerator
+        public: true
+        arguments:
+            - "%metabase.parameter.site_url%"
+            - "%metabase.parameter.secret_key%"
+            - "%metabase.parameter.token_expiration%"
+            - "%metabase.parameter.border%"
+            - "%metabase.parameter.title%"
+            - "%metabase.parameter.theme%"
+
+    metabase.twig.extension:
+        class: Malefici\Symfony\MetabaseBundle\Twig\MetabaseExtension
+        arguments:
+            - "@metabase.link_generator"
+        tags: ['twig.extension']
+
+    metabase.command.generate_token:
+        class: Malefici\Symfony\MetabaseBundle\Command\GenerateUrlCommand
+        arguments:
+            - "@metabase.link_generator"
+        tags: ['console.command']
