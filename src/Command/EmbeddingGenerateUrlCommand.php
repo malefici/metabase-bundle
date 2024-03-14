@@ -2,22 +2,22 @@
 
 namespace Malefici\Symfony\MetabaseBundle\Command;
 
-use Malefici\Symfony\MetabaseBundle\Metabase\EmbeddingTypeEnum;
-use Malefici\Symfony\MetabaseBundle\Metabase\UrlGenerator;
+use Malefici\Symfony\MetabaseBundle\Metabase\Embedding\EmbedTypeEnum;
+use Malefici\Symfony\MetabaseBundle\Metabase\Embedding\UrlGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateUrlCommand extends Command
+class EmbeddingGenerateUrlCommand extends Command
 {
     private UrlGenerator $linkGenerator;
 
     public function __construct(UrlGenerator $linkGenerator)
     {
         $this->linkGenerator = $linkGenerator;
-        parent::__construct('metabase:generate-url');
+        parent::__construct('metabase:embedding:generate-url');
     }
 
     protected function configure(): void
@@ -38,7 +38,7 @@ class GenerateUrlCommand extends Command
         $_ = array_map(fn (string $param) => explode('=', $param), $params);
         $params = array_combine(array_column($_, 0), array_column($_, 1));
 
-        if (null === ($enumType = EmbeddingTypeEnum::tryFrom($type))) {
+        if (null === ($enumType = EmbedTypeEnum::tryFrom($type))) {
             $output->writeln(sprintf('Unknown type "%s"', $type));
 
             return Command::INVALID;

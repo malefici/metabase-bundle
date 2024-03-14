@@ -1,9 +1,8 @@
 <?php
 
-namespace Malefici\Symfony\MetabaseBundle\Metabase;
+namespace Malefici\Symfony\MetabaseBundle\Metabase\Embedding;
 
 use Firebase\JWT\JWT;
-
 use function Symfony\Component\Clock\now;
 
 readonly class UrlGenerator
@@ -18,7 +17,7 @@ readonly class UrlGenerator
     ) {
     }
 
-    public function generate(EmbeddingTypeEnum $embeddingType, int $id, array $params = [], ?\DateTimeImmutable $expiration = null)
+    public function generate(EmbedTypeEnum $embeddingType, int $id, array $params = [], ?\DateTimeImmutable $expiration = null)
     {
         $payload = [
             'resource' => [
@@ -35,8 +34,8 @@ readonly class UrlGenerator
             'titled' => (bool) $this->title,
         ];
 
-        $theme = EmbeddedThemeEnum::tryFrom($this->theme);
-        if ($theme->value !== EmbeddedThemeEnum::light->value) {
+        $theme = IframeThemeEnum::tryFrom($this->theme);
+        if ($theme->value !== IframeThemeEnum::light->value) { // don't add param if theme is light
             $appearanceParams['theme'] = $theme->value;
         }
 
