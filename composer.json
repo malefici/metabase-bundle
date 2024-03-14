@@ -32,5 +32,13 @@
         "psr-4": {
             "Malefici\\Symfony\\MetabaseBundle\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@test"
+        ],
+        "test": [
+            "vendor/bin/phpunit tests"
+        ]
     }
 }
